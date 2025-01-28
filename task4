@@ -1,0 +1,48 @@
+import java.util.HashMap;
+import java.util.Scanner;
+
+public class task4 {
+
+    // Mock function to simulate fetching exchange rates from an API
+    public static double getExchangeRate(String baseCurrency, String targetCurrency) {
+        HashMap<String, Double> mockRates = new HashMap<>();
+        mockRates.put("USD_TO_EUR", 0.85);
+        mockRates.put("EUR_TO_USD", 1.18);
+        mockRates.put("USD_TO_INR", 74.5);
+        mockRates.put("INR_TO_USD", 0.013);
+
+        String key = baseCurrency + "_TO_" + targetCurrency;
+        return mockRates.getOrDefault(key, -1.0); // Return -1.0 if no rate found
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        //  Currency Selection
+        System.out.println("Available Currencies: USD, EUR, INR");
+        System.out.print("Enter base currency: ");
+        String baseCurrency = scanner.nextLine().toUpperCase();
+        System.out.print("Enter target currency: ");
+        String targetCurrency = scanner.nextLine().toUpperCase();
+
+        //  Fetch exchange rate
+        double exchangeRate = getExchangeRate(baseCurrency, targetCurrency);
+        if (exchangeRate == -1.0) {
+            System.out.println("Exchange rate not available for the selected currencies.");
+            return;
+        }
+
+        //  Amount Input
+        System.out.print("Enter the amount to convert: ");
+        double amount = scanner.nextDouble();
+
+        //  Currency Conversion
+        double convertedAmount = amount * exchangeRate;
+
+        // Display Result
+        System.out.println("\n--- Conversion Result ---");
+        System.out.printf("%.2f %s = %.2f %s\n", amount, baseCurrency, convertedAmount, targetCurrency);
+
+        scanner.close();
+    }
+}
